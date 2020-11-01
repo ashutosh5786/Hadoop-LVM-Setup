@@ -1,0 +1,36 @@
+-   name: Creating LVM
+    hosts: Node
+    tasks:
+            - name: Unmounting The Folder
+              command: umount /datanode
+              
+            - name: Creating vg
+              community.general.lvg:
+                    vg: task_vg
+                    pvs: /dev/nvme0n2
+                    pvresize: yes
+                    state: absent
+                    force: yes
+
+            - name: Creating Lvg
+              community.general.lvol:
+                    vg: task_vg
+                    lv: task_lv
+                    size: 2g
+                    state: absent
+                    force: yes
+
+            - name: Creating Mount Point(Folder)
+              file:
+                path: /datanode
+                state: absent
+
+            - name: Mounting The Folder to Disk
+              ansible.posix.mount:
+                path: /datanode
+                src: /dev/mapper/task_vg-task_lv
+                fstype: ext4
+                opts: defaults
+                state: absent
+
+
