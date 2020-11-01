@@ -12,3 +12,11 @@ src: <device_name>
 check the name of disk or dev by 
 ### fdisk -l
 command in linux
+
+## FOR REDUCE AND EXTEND PLAYBOOK
+
+#### For Extend
+size is in mb 
+
+#### For Reduce
+The size you provide will be the for the new lv 
