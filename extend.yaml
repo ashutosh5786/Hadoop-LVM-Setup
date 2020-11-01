@@ -1,9 +1,9 @@
 - name: Extending The Partition
   hosts: Node
   tasks:
-        - name: reducing the logical volume.
+        - name: Extending the logical volume.
           community.general.lvol:
             vg: task_vg
             lv: task_lv
-            size: 2048
+            size: 3g
             force: yes
