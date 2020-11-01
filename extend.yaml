@@ -7,3 +7,4 @@
             lv: task_lv
             size: 3g
             force: yes
+            resizefs: true
