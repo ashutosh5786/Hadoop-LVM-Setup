@@ -6,7 +6,7 @@ vg: <name_of_volume_group>
 pvs: <name_of_device>  
 lv: <name_of_logical_volume>  
 dev: <device_name>  
-path: <folder name and path>  
+path: <folder_name_and_path>  
 src: <device_name>  
 
 check the name of disk or dev by 
