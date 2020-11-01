@@ -1,0 +1,20 @@
+- name: Reducing the Partition Size
+  hosts: Node
+  tasks:
+        - name: Unmounting The Disk
+          ansible.posix.mount:
+            path: /datanode
+            state: unmounted
+
+        - name: Resizing The Disk
+          community.general.lvol:
+            vg: task_vg
+            lv: task_lv
+            size: 1G
+            force: yes
+            resizefs: true      
+        
+        - name: Mounting The Disk
+          ansible.posix.mount:
+            path: /datanode
+            state: mount
