@@ -33,8 +33,4 @@
                 src: /dev/mapper/task_vg-task_lv
                 fstype: ext4
                 opts: defaults
-                state: present
-
-            - name: Running Command to Mount
-              command: mount -a  
-
+                state: mounted
