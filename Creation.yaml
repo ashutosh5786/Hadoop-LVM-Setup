@@ -1,0 +1,69 @@
+-   name: Creating LVM
+    hosts: Node
+
+    vars_prompt:
+            - name: size
+              prompt: What is the size of Logical Volume (<5g)?
+              private: no
+
+            - name: pvs_name
+              prompt: What is the device Name which you Want to use a LVM
+              private: no
+            
+            - name: VG
+              prompt: What is the Name of Volume Group
+              private: no
+            
+            - name: LV
+              prompt: What is the Name of Logical Volume
+              private: no
+
+            - name: filesys
+              prompt: What is the filesystem you Want (ext4, ext3, etc)
+              private: no
+
+            - name: Folder
+              prompt: What is the Folder Name to which you want to mount (/datanode)
+              private: no
+
+            - name: state
+              prompt: What is the state (present/absent)
+              private: no
+
+            
+
+    tasks:
+            - name: Creating vg
+              community.general.lvg:
+                    vg: "{{VG}}"
+                    pvs: "{{pvs_name}}"
+                    pvresize: yes
+                    state: '{{state}}'
+                    force: yes
+
+            - name: Creating Lvg
+              community.general.lvol:
+                    vg: "{{VG}}"
+                    lv: "{{LV}}"
+                    size: "{{ size }}"
+                    state: '{{state}}'
+                    force: yes
+
+            - name: Creating a partition of ext4
+              community.general.filesystem:
+                    fstype: "{{filesys}}"
+                    dev: /dev/mapper/{{VG}}-{{LV}}
+
+            - name: Creating Mount Point(Folder)
+              file:
+                path: "{{Folder}}"
+                state: directory
+
+            - name: Mounting The Folder to Disk
+              ansible.posix.mount:
+                path: "{{Folder}}"
+                src: /dev/mapper/{{VG}}-{{LV}}
+                fstype: "{{filesys}}"
+                opts: defaults
+                state: mounted
+

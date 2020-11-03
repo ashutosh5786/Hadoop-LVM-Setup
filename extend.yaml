@@ -1,0 +1,23 @@
+- name: Extending The Partition
+  hosts: Node
+  vars_prompt:
+    - name: size
+      prompt: What is the size of Logical Volume (<3g)?
+      private: no
+
+    - name: VG
+      prompt: What is the Name of Volume Group
+      private: no
+  
+    - name: LV
+      prompt: What is the Name of Logical Volume
+      private: no
+
+  tasks:
+        - name: Extending the logical volume.
+          community.general.lvol:
+            vg: '{{VG}}'
+            lv: '{{LV}}'
+            size: '{{size}}'
+            force: yes
+            resizefs: true

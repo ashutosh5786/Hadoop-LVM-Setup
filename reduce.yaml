@@ -1,0 +1,47 @@
+- name: Reducing the Partition Size
+  hosts: Node
+
+  vars_prompt:
+    - name: size
+      prompt: What is the size of Logical Volume You Want After Resize (>1g)?
+      private: no
+
+    - name: pvs_name
+      prompt: What is the device Name which you Want to use a LVM
+      private: no
+  
+    - name: VG
+      prompt: What is the Name of Volume Group
+      private: no
+  
+    - name: LV
+      prompt: What is the Name of Logical Volume
+      private: no
+
+    - name: Folder
+      prompt: What is the Folder Name to which you want to mount (/datanode)
+      private: no
+
+    - name: filesys
+      prompt: What is the filesystem you Want (ext4, ext3, etc)
+      private: no
+  tasks:
+        - name: Unmounting The Disk
+          ansible.posix.mount:
+            path: '{{Folder}}'
+            state: unmounted
+
+        - name: Resizing The Disk
+          community.general.lvol:
+            vg: '{{VG}}'
+            lv: '{{LV}}'
+            size: '{{size}}'
+            force: yes
+            resizefs: true      
+        
+        - name: Mounting The Disk
+          ansible.posix.mount:
+            path: '{{Folder}}'
+            state: mounted
+            src: /dev/mapper/{{VG}}-{{LV}}
+            fstype: '{{filesys}}'

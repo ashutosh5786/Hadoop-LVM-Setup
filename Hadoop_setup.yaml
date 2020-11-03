@@ -1,0 +1,54 @@
+-   name: Copying The Software
+    hosts: Node
+    tasks:
+            - name: Copying The Java
+              copy:
+                src: ./jdk-8u171-linux-x64.rpm
+                dest: /
+            - name: Copying The Hadoop
+              copy:
+                src: ./hadoop-1.2.1-1.x86_64.rpm
+                dest: /
+
+-   name: Installing The Software
+    hosts: Node
+    ignore_errors: yes
+    tasks:
+            - name: Installing The Java
+              command: rpm -i /jdk-8u171-linux-x64.rpm
+
+            - name: Installing The Hadoop
+              command: rpm -i /hadoop-1.2.1-1.x86_64.rpm --force
+
+-   name: Copying The Files
+    hosts: Node
+    tasks:
+        - name: Copying hdfs-site.xml Files
+          copy:
+            src: ./hdfs-site.xml
+            dest: /etc/hadoop/
+        - name: Copying core-site.xml Files
+          copy:
+            src: ./core-site.xml
+            dest: /etc/hadoop
+
+-   name: Setting The IP
+    hosts: Node
+    vars_prompt:
+      - name: ip_add
+        prompt: What is the IP of Master
+        private: no
+      - name: folder
+        prompt: What is the folder name to which you want to bind(/datanode)
+        private: no
+    tasks:
+      - name: Setting IP
+        lineinfile:
+                path: /etc/hadoop/core-site.xml
+                regexp: '.ip'
+                line: <value>hdfs://{{ip_add}}:9001</value>
+      - name: Setting the folder 
+        lineinfile:
+                path: /etc/hadoop/hdfs-site.xml
+                regexp: './datanode'
+                line: <value>{{folder}}</value>
