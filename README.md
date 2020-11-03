@@ -1,5 +1,14 @@
 # Hadoop-LVM-Setup
 
+## Just Made The menu.py executable by writing 
+"chmod +x"
+and to run it 
+./menu.py
+And You Are Ready To Go
+
+
+
+
 All you need is to set the followings
 
 vg: <name_of_volume_group>  
