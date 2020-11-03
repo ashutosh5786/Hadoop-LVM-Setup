@@ -9,7 +9,7 @@ And You Are Ready To Go
 
 
 
-All you need is to set the followings
+## All you need is to set the followings
 
 vg: <name_of_volume_group>  
 pvs: <name_of_device>  
