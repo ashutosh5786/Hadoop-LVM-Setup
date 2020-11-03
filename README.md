@@ -1,4 +1,4 @@
-# LVM_PLAYBOOK
+# Hadoop-LVM-Setup
 
 All you need is to set the followings
 
