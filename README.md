@@ -1,9 +1,9 @@
 # Hadoop-LVM-Setup
 
 ## Just Made The menu.py executable by writing 
-"chmod +x"
-and to run it 
-./menu.py
+"chmod +x"  
+and to run it   
+./menu.py  
 And You Are Ready To Go
 
 
